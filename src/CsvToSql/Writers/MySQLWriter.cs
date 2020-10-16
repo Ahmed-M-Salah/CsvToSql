@@ -162,7 +162,7 @@ namespace CsvToSql
                 }
             }
 
-            return builderFinal.ToString();
+            return builderFinal;
         }
     }
 }
