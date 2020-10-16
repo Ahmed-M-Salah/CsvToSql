@@ -73,7 +73,7 @@ namespace CsvToSql
             }
         }
 
-        public string GenerateTableWithInserts(SqlTable sqlTable, string tableName, int maxBulk, SqlInsertStringFormat insertStringFormart)
+        public StringBuilder GenerateTableWithInserts(SqlTable sqlTable, string tableName, int maxBulk, SqlInsertStringFormat insertStringFormart)
         {
             var builderFinal = new StringBuilder();
             if (sqlTable != null)
@@ -109,7 +109,7 @@ namespace CsvToSql
                         strCols.Append(ObjectToSqlValue(sqlColumn.Value, sqlColumn.ColumnTypeDefinition.Type));
 
                         if (insertStringFormart == SqlInsertStringFormat.BreakLineAndShowColumnNameForEachColumn)
-                        { 
+                        {
                             strCols.Append(" -- ");
                             strCols.Append(sqlColumn.ColumnTypeDefinition.Name);
                             strCols.Append(" ");
@@ -128,7 +128,7 @@ namespace CsvToSql
                         builderIntermediate.Append("\r\n");
 
                     builderIntermediate.Append(")");
-                    
+
                     if (sqlRow != lastRow && countBulk + 1 < maxBulk)
                         builderIntermediate.AppendLine(", ");
 
@@ -161,7 +161,9 @@ namespace CsvToSql
                 }
             }
 
-            return builderFinal.ToString();
+            //return builderFinal.ToString();
+            return builderFinal;
         }
+
     }
 }
