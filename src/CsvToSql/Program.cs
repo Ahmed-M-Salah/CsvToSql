@@ -31,7 +31,7 @@ namespace CsvToSql
             var showHelp = false;
             var path = "";
             var sqlWriterName = "sqlserver";
-            var tableName = "#CSV";
+            var tableName = "Table1";
             var maxBulk = 25;
             var insertStringFormat = SqlInsertStringFormat.None;
             var hasHeader = true;
@@ -44,7 +44,7 @@ namespace CsvToSql
                 { "delimiter=", "Set the delimiter columns, default is ';'.", paramValue => delimiter = paramValue },
                 { "count=", "Set the count line to generate", (int paramValue) => count = paramValue },
                 { "dbname=", "Set the database name to determine the type of output SQL, the options are: \r\n [sqlserver], \r\n [mysql].", paramValue => sqlWriterName = paramValue },
-                { "tname=", "Set the table name to generate, default is '#CSV'.", paramValue => tableName = paramValue },
+                { "tname=", "Set the table name to generate, default is '#Table1'.", paramValue => tableName = paramValue },
                 { "maxbulk=", "Set the amount of 'values' that will be grouped in 'inserts' section, default is '" + maxBulk + "'.", (int paramValue) => maxBulk = paramValue },
                 { "insert-format=", "Set the output format to 'insert values', default is 'None' and the options are: \r\n [none], \r\n [break-line], \r\n [break-line-and-show-columns]"
                     , paramValue =>
@@ -127,17 +127,25 @@ namespace CsvToSql
                     textReader = GetTextReader(path);
 
                 var sqlTable = SqlTable.CsvToSqlTable(textReader, sqlWriter, hasHeader, delimiter, count);
-                var output = "";
+                var output = new StringBuilder();
                 if (sqlTable != null)
                 {
                     output = sqlWriter.GenerateTableWithInserts(sqlTable, tableName, maxBulk, insertStringFormat);
                 }
                 else
                 {
-                    output = "The 'CSV' is empty";
+                    output.Append("The 'CSV' is empty");
                 }
                 Console.OutputEncoding = Encoding.UTF8;
-                Console.Write(output);
+                int iChunkSize = 50000000;
+                for (int i = 0; i < output.Length; i += iChunkSize)
+                {
+                    int A_Size = output.Length - i >= iChunkSize ? iChunkSize : Math.Abs(output.Length - i);
+                    char[] out_i = new char[A_Size];
+                    output.CopyTo(i, out_i, 0, A_Size);
+                    Console.Write(out_i);
+                }
+                
             }
             catch (Exception ex)
             {
