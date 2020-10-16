@@ -57,3 +57,4 @@ Convert a CSV file to SQL output: sqlserver and mysql
 ## Contributors
  * [juniorgasparotto](https://github.com/juniorgasparotto) author
  * [matteobaccan](https://github.com/matteobaccan) mysql support
+ * [Ahmed-M-Salah](https://github.com/Ahmed-M-Salah) C# support
