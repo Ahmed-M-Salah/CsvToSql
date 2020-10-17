@@ -11,7 +11,7 @@ Convert a CSV file to SQL output: sqlserver and mysql
   * Attempts to automatically discover the typing of each field
   * Database supported:  SQL Server (extensible)
   * Works with UTF-8 encoding
-  * Can convert big data files (up to 4GB)
+  * Handles large data files (up to 4 GB)
 
 ## Tutorials
 
